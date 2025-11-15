@@ -1,0 +1,25 @@
+{
+  "name": "darna-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node --watch app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/medlaq777/Darna.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/medlaq777/Darna/issues"
+  },
+  "homepage": "https://github.com/medlaq777/Darna#readme",
+  "dependencies": {
+    "express": "^5.1.0"
+  }
+}
