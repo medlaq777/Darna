@@ -1,4 +1,5 @@
 import UserRepo from "../repositories/user.repository.js";
+import Bcrypt from "../utils/bcrypt.util.js";
 
 class AuthService {
   constructor(UserRepo) {
@@ -17,6 +18,11 @@ class AuthService {
       err.status = 409;
       throw err;
     }
-    const user = await this.UserRepo.create({ fullName, email, password });
+    const hashed = await bcrypt.hash(password, 10);
+    const user = await this.UserRepo.create({
+      fullName,
+      email,
+      password: hashed,
+    });
   }
 }
