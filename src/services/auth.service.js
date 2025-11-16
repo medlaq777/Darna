@@ -1,9 +1,10 @@
-import UserRepo from "../repositories/user.repository.js";
+import userRepo from "../repositories/user.repository.js";
 import Bcrypt from "../utils/bcrypt.util.js";
+import Jwt from "../utils/jwt.util.js";
 
 class AuthService {
-  constructor(UserRepo) {
-    this.UserRepo = UserRepo;
+  constructor(userRepoInstance) {
+    this.userRepo = userRepoInstance;
   }
 
   async register({ fullName, email, password }) {
@@ -12,17 +13,24 @@ class AuthService {
       err.status = 400;
       throw err;
     }
-    const UserExists = await this.UserRepo.findByEmail(email);
+    const UserExists = await this.userRepo.findByEmail(email);
     if (UserExists) {
       const err = new Error("User already exists");
       err.status = 409;
       throw err;
     }
-    const hashed = await bcrypt.hash(password, 10);
-    const user = await this.UserRepo.create({
+    const hashed = await Bcrypt.hash(password, 10);
+    const user = await this.userRepo.create({
       fullName,
       email,
       password: hashed,
     });
+    const token = Jwt.generateToken({
+      id: user.id,
+      fullName: user.fullName,
+      email: user.email,
+    });
+    return { user: this.sanitize(user), token };
   }
 }
+export default new AuthService(userRepo);
