@@ -6,7 +6,7 @@ class UserRepository {
     return user.save();
   }
 
-  async findByEmail() {
+  async findByEmail(email) {
     return userModel.findOne({ email }).exec();
   }
 

@@ -7,3 +7,5 @@ const userSchema = new mongoose.Schema({
   role: { type: String, enum: ["user", "admin"], default: "user" },
   isKycVerified: { type: Boolean, default: false },
 });
+
+export default mongoose.model("User", userSchema);

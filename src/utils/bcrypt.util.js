@@ -1,12 +1,9 @@
 import bcrypt from "bcryptjs";
 
 class BcryptUtil {
-  constructor(saltRounds = 10) {
-    this.saltRounds = saltRounds;
-  }
-  static hash(password) {
+  static hash(password, saltRounds = 10) {
     if (!password) throw new Error("Password Required");
-    return bcrypt.hash(password, this.saltRounds);
+    return bcrypt.hash(password, saltRounds);
   }
 
   static compare(password, hashedPassword) {
@@ -16,4 +13,4 @@ class BcryptUtil {
   }
 }
 
-export default BcryptUtil();
+export default BcryptUtil;
