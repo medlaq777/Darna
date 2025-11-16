@@ -1,0 +1,23 @@
+import userModel from "../models/user.model.js";
+
+class UserRepository {
+  async create(userData) {
+    const user = new userModel(userData);
+    return user.save();
+  }
+
+  async findByEmail() {
+    return userModel.findOne({ email }).exec();
+  }
+
+  async findById() {
+    return userModel.findById(id).exec();
+  }
+
+  async emailExists(email) {
+    const count = await userModel.countDocuments({ email }).exec();
+    return count > 0;
+  }
+}
+
+export default new UserRepository();
