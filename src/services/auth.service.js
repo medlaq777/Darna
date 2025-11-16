@@ -33,6 +33,42 @@ class AuthService {
     return { user: this.sanitize(user), token };
   }
 
+  async login({ email, password }) {
+    if (!email || !password) {
+      const err = new Error("Email and password are required");
+      err.status = 400;
+      throw err;
+    }
+    const user = await this.userRepo.findByEmail(email);
+    if (!user) {
+      const err = new Error("Invalid email or password");
+      err.status = 401;
+      throw err;
+    }
+    const isSame = await Bcrypt.compare(password, user.password);
+    if (!isSame) {
+      const err = new Error("Invalid email or password");
+      err.status = 401;
+      throw err;
+    }
+    const token = Jwt.generateToken({
+      id: user.id,
+      email: user.email,
+      role: user.role,
+    });
+    return { user: this.sanitize(user), token };
+  }
+
+  async profile(userId) {
+    const user = await this.userRepo.findById(userId);
+    if (!user) {
+      const err = new Error("User not found");
+      err.status = 404;
+      throw err;
+    }
+    return this.sanitize(user);
+  }
+
   sanitize(user) {
     if (!user || typeof user !== "object") return {};
     const obj = user?.toObject() ?? user;

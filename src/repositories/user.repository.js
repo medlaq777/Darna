@@ -10,7 +10,7 @@ class UserRepository {
     return userModel.findOne({ email }).exec();
   }
 
-  async findById() {
+  async findById(id) {
     return userModel.findById(id).exec();
   }
 

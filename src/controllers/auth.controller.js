@@ -13,6 +13,26 @@ class AuthController {
       next(err);
     }
   }
+
+  async login(req, res, next) {
+    try {
+      const payload = req.body;
+      const result = await this.service.login(payload);
+      res.status(201).json(result);
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  async profile(req, res, next) {
+    try {
+      const userId = req.user.id;
+      const user = await this.service.profile(userId);
+      res.json(user);
+    } catch (err) {
+      next(err);
+    }
+  }
 }
 
 export default new AuthController(AuthService);
